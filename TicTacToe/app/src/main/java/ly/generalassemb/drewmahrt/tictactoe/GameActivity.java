@@ -63,7 +63,6 @@ public class GameActivity extends AppCompatActivity {
         player2 = intent.getStringExtra("player2");
         game_message_text.setText(player1 + "'s turn");
 
-
         textView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +73,7 @@ public class GameActivity extends AppCompatActivity {
                     player2moves.add(1);
                 }
                 winCheck();
+                v.setOnClickListener(null);
             }
         });
 
@@ -87,6 +87,7 @@ public class GameActivity extends AppCompatActivity {
                     player2moves.add(2);
                 }
                 winCheck();
+                v.setOnClickListener(null);
             }
         });
 
@@ -100,6 +101,7 @@ public class GameActivity extends AppCompatActivity {
                     player2moves.add(3);
                 }
                 winCheck();
+                v.setOnClickListener(null);
             }
         });
 
@@ -113,6 +115,7 @@ public class GameActivity extends AppCompatActivity {
                     player2moves.add(4);
                 }
                 winCheck();
+                v.setOnClickListener(null);
             }
         });
 
@@ -126,6 +129,7 @@ public class GameActivity extends AppCompatActivity {
                     player2moves.add(5);
                 }
                 winCheck();
+                v.setOnClickListener(null);
             }
         });
 
@@ -139,6 +143,7 @@ public class GameActivity extends AppCompatActivity {
                     player2moves.add(6);
                 }
                 winCheck();
+                v.setOnClickListener(null);
             }
         });
 
@@ -152,6 +157,7 @@ public class GameActivity extends AppCompatActivity {
                     player2moves.add(7);
                 }
                 winCheck();
+                v.setOnClickListener(null);
             }
         });
 
@@ -165,6 +171,7 @@ public class GameActivity extends AppCompatActivity {
                     player2moves.add(8);
                 }
                 winCheck();
+                v.setOnClickListener(null);
             }
         });
 
@@ -178,28 +185,30 @@ public class GameActivity extends AppCompatActivity {
                     player2moves.add(9);
                 }
                 winCheck();
+                v.setOnClickListener(null);
             }
         });
-
     }// end of onCreate
 
     public boolean winCheck(){
 
         for (int i = 0; i < winningCombos.length; i++ ){
+            //player 1 win
             if (player1moves.containsAll(Arrays.asList(winningCombos[i]))){
-                Toast.makeText(GameActivity.this, "winner !", Toast.LENGTH_SHORT).show();
-                game_message_text.setText(player1 + " wins!");
-                Intent intent = new Intent(GameActivity.this, MainActivity.class);
-                intent.putExtra("winner", player1);
-                startActivity(intent);
+                Toast.makeText(GameActivity.this, player1 + " wins!", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(GameActivity.this, MainActivity.class).putExtra("winner", player1));
+            //player 2 win
             }else if (player2moves.containsAll(Arrays.asList(winningCombos[i]))){
-                Toast.makeText(GameActivity.this, "winner !", Toast.LENGTH_SHORT).show();
-                game_message_text.setText(player2 + " wins!");
-                Intent winner = new Intent(GameActivity.this, MainActivity.class);
-                winner.putExtra("winner", player2);
-                startActivity(winner);
+                Toast.makeText(GameActivity.this, player2 + " wins!", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(GameActivity.this, MainActivity.class).putExtra("winner", player2));
             }
         }
+        //cat's game
+        if(player1moves.size() + player2moves.size() == 9){
+            Toast.makeText(GameActivity.this,"Cat's game!", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(GameActivity.this, MainActivity.class).putExtra("winner", "the last game was a tie"));
+        }
+
         counter ++;
         return true;
     }
@@ -207,16 +216,12 @@ public class GameActivity extends AppCompatActivity {
     public void move(View v){
         TextView tv = (TextView)v;
 
-        if (tv.getText().toString() == "" ) {
-            if (counter % 2 == 0) {
-                tv.setText("x");
-                game_message_text.setText(player2 + "'s turn");
-            } else if (counter % 2 != 0) {
-                tv.setText("o");
-                game_message_text.setText(player1 + "'s turn");
-            }
-        } else {
-            Toast.makeText(GameActivity.this, "Seat's Taken", Toast.LENGTH_LONG).show();
+        if (counter % 2 == 0) {
+            tv.setText("x");
+            game_message_text.setText(player2 + "'s turn");
+        } else if (counter % 2 != 0) {
+            tv.setText("o");
+            game_message_text.setText(player1 + "'s turn");
         }
     }
 }
