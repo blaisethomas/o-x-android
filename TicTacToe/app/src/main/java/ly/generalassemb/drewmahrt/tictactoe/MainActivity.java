@@ -9,6 +9,10 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    TextView player1name;
+    TextView player2name;
+    TextView winnerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,8 +20,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         Button startPlaying = (Button) findViewById(R.id.start_game_button);
-        final TextView player1name = (TextView)findViewById(R.id.player_one_name);
-        final TextView player2name = (TextView)findViewById(R.id.player_two_name);
+        player1name = (TextView) findViewById(R.id.player_one_name);
+        player2name = (TextView) findViewById(R.id.player_two_name);
+        winnerView = (TextView) findViewById(R.id.last_winner_text);
+
+        Intent winnerIntent = getIntent();
+        String lastWinner = winnerIntent.getStringExtra("winner");
+        winnerView.setText("Previous winner : " + lastWinner);
+
 
 
         startPlaying.setOnClickListener(new View.OnClickListener() {
@@ -32,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(startGame);
             }
         });
+
+
     }
 
 }
